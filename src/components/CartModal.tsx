@@ -1,6 +1,10 @@
 import { X } from "lucide-react";
 import { useCartStore } from "../store/cartStore";
 import { useEffect, useRef } from "react";
+import { createPaypalOrder } from "../api/paypal";
+import { useNavigate } from "react-router-dom";
+import { PayPalButton } from "./PayPalButton";
+
 
 interface CartModalProps {
     isOpen: boolean
@@ -11,6 +15,8 @@ export const CartModal = ({ isOpen, onClose}: CartModalProps) => {
     const { items, removeFromCart, getTotalItems, getTotalPrice } = useCartStore()
     const modalRef = useRef<HTMLDivElement>(null)
 
+    const navigate = useNavigate();
+    const { clearCart } = useCartStore();
 
     useEffect(() => {
 
@@ -45,7 +51,7 @@ export const CartModal = ({ isOpen, onClose}: CartModalProps) => {
                     <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
                     <X size={20} />
                     </button>
-                    <h2 className="text-xl font-semibold mb-4">Tu carrito</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-gray-700">Tu carrito</h2>
 
                     {items.length === 0 ? (
                     <p className="text-gray-500">El carrito está vacío</p>
@@ -54,9 +60,9 @@ export const CartModal = ({ isOpen, onClose}: CartModalProps) => {
                         {items.map(item => (
                         <div key={item.id} className="flex justify-between items-center border-b pb-2">
                             <div>
-                            <p className="font-medium">{item.title}</p>
-                            <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>
-                            <p className="text-sm text-gray-500">Subtotal: ${item.price * item.quantity}</p>
+                                <p className="font-medium text-gray-700">{item.title}</p>
+                                <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>
+                                <p className="text-sm text-gray-500">Subtotal: ${item.price * item.quantity}</p>
                             </div>
                             <button
                             onClick={() => removeFromCart(item.id)}
@@ -67,15 +73,39 @@ export const CartModal = ({ isOpen, onClose}: CartModalProps) => {
                         </div>
                         ))}
                         <div className="border-t pt-2">
-                        <p className="font-semibold">Total: ${getTotalPrice().toFixed(2)}</p>
-                        <p className="text-sm text-gray-500">Productos: {getTotalItems()}</p>
+                            <p className="font-semibold">Total: ${getTotalPrice().toFixed(2)}</p>
+                            <p className="text-sm text-gray-500">Productos: {getTotalItems()}</p>
                         </div>
-                        <button
-                        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-                        onClick={() => alert('Implementar pago')}
-                        >
-                        Proceder al pago
-                        </button>
+                        <PayPalButton
+                            amount={getTotalPrice()}
+                            createOrderBackend={async () => {
+                                const res = await createPaypalOrder(getTotalPrice(), items.map(item => ({
+                                product_id: item.id,
+                                quantity: item.quantity,
+                                price: item.price,
+                                })));
+                                localStorage.setItem("local_order_id", res.local_order_id.toString());
+                                
+                                // Retornamos el ID de PayPal para que el botón lo use
+                                return res.paypal_order.id;
+                            }}
+                            onSuccess={(details) => {
+                                console.log("Pago exitoso:", details);
+                                clearCart();
+                                // Puedes navegar a otra página o mostrar mensaje
+                                navigate("/"); 
+                            }}
+                            onError={(err) => {
+                                console.error("Error en el pago:", err);
+                                alert("Ocurrió un error al procesar el pago.");
+                            }}
+                        />
+                        {/* <button
+                            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+                            onClick={handlePayment}
+                            >
+                            Proceder al pago
+                        </button> */}
                     </div>
                     )}
                 </div>

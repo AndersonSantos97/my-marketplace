@@ -12,17 +12,29 @@ const SellerCard = ({seller}: SellerCardProps) => {
         <>
             <div
                 onClick={() => navigate(`/seller/${seller.id}`)}
-                className="bg-white rounded-xl shadow-md p-5 cursor-pointer hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center"
+                className="bg-gray-50 shadow-md hover:shadow-xl hover:scale-[1.03] transition-all duration-300 cursor-pointer overflow-hidden w-[250px] h-[340px] flex flex-col justify-between p-4"
                 >
-                <img
+                {/* Imagen arriba */}
+                <div className="flex justify-center mb-4">
+                    <img
                     src={seller.avatar_url}
                     alt={seller.name}
-                    className="w-20 h-20 rounded-full object-cover mb-4"
-                />
-                <h2 className="text-lg font-semibold text-gray-800">{seller.name}</h2>
-                <p className="text-sm text-gray-500 mt-1">{seller.bio}</p>
+                    className="w-24 h-24 rounded-full object-cover border-2 "
+                    />
+                </div>
+
+                {/* Nombre y bio distribuidos */}
+                <div className="text-center flex flex-col flex-grow justify-between">
+                    <h2 className="text-lg font-semibold text-gray-800 mb-2">{seller.name}</h2>
+                    <p className="text-sm text-gray-600 line-clamp-3">{seller.bio}</p>
+                </div>
+
+                {/* Footer */}
+                <div className="text-center mt-4">
+                    <span className="text-xs text-gray-400">Haz clic para ver sus productos</span>
+                </div>
             </div>
-        
+                    
         </>
     )
 

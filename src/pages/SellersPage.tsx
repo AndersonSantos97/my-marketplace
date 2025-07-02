@@ -5,6 +5,7 @@ import { fetchSellers } from "../api/seller";
 import SellerCard from "../components/SellerCard";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import Hero from "../components/Hero";
 
 
 const SellersPage = () => {
@@ -41,12 +42,20 @@ const SellersPage = () => {
     
     return (
         <>
-            <Navbar/>
+            <div className="max-w-7xl mx-auto">
+                <div className="relative">
+                    <Hero 
+                        image="/images/seller.jpg"
+                        title="El Mejor Lugar Para Comprar"
+                    />
+                    <Navbar />
+                </div>
+            </div>
             <section className="px-4 pt-20 pb-20">
-                <div className="px-4 pt-20 pb-20 max-w-screen-xl mx-auto">
-                    <h1 className="text-3xl font-bold mb-6">Vendedores</h1>
+                <div className="md:px-10 lg:px-16 pt-20 pb-20 max-w-screen-xl mx-auto">
+                    <h1 className="text-3xl font-bold mb-6 text-center">Vendedores</h1>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 place-content-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {sellers.map(seller => (
                         <SellerCard key={seller.id} seller={seller} />
                         ))}
