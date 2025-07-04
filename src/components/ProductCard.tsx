@@ -21,15 +21,19 @@ export const ProductCard = ({ product }: Props) => {
         <p className="text-sm text-gray-600 mt-1 line-clamp-2">{product.description}</p>
         <div className="mt-4 flex justify-between items-center">
           <span className="text-blue-600 font-bold text-lg">${product.price.toFixed(2)}</span>
-          <button
-            onClick={() => {
+          {product.stock === 0 ? (
+            <span className="text-red-500 font-semibold">Agotado</span>
+          ) : (
+            <button
+              onClick={() => {
                 addToCart(product)
                 toast.success(`${product.title} agregado al carrito`)
-            }}
-            className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition"
-          >
-            Agregar
-          </button>
+              }}
+              className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition"
+            >
+              Agregar
+            </button>
+          )}
         </div>
       </div>
     </div>

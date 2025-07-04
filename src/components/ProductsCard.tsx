@@ -10,6 +10,7 @@ import toast from 'react-hot-toast'
 
 export const MostSaleCard = ({ mostsales }: {mostsales: MostSale}) => {
   const addToCart = useCartStore(state => state.addToCart)
+  console.log("Cantidad de estock de mostsales" + mostsales.stock)
 
   return(
     <div className="bg-gray-50 mx-4 shadow-md hover:shadow-xl hover:scale-[1.03] transition-all duration-300 cursor-pointer overflow-hidden w-[250px] h-[360px] flex flex-col justify-between p-4">
@@ -23,15 +24,20 @@ export const MostSaleCard = ({ mostsales }: {mostsales: MostSale}) => {
         <p className="text-sm text-gray-600 mt-1 line-clamp-2">{mostsales.description}</p>
         <div className="mt-4 flex justify-between items-center">
           <span className="text-blue-600 font-bold text-lg">${mostsales.price.toFixed(2)}</span>
-          <button
-            onClick={() => {
-                addToCart(mostsales)
-                toast.success(`${mostsales.title} agregado al carrito`)
-            }}
-            className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition"
-          >
-            Agregar
-          </button>
+          {mostsales.stock === 0 ? (
+            <span className="text-red-500 font-semibold">Agotado</span>
+          ) : (
+                <button
+                  onClick={() => {
+                      addToCart(mostsales)
+                      toast.success(`${mostsales.title} agregado al carrito`)
+                  }}
+                  className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition"
+                >
+                  Agregar
+                </button>
+
+          )}
         </div>
       </div>
     </div>

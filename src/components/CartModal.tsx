@@ -17,7 +17,9 @@ export const CartModal = ({ isOpen, onClose}: CartModalProps) => {
 
     const navigate = useNavigate();
     const { clearCart } = useCartStore();
-
+    const hasInsufficientStock = items.some(
+        item => item.stock === 0 || item.quantity > item.stock
+    );
     useEffect(() => {
 
         const handleEsc = (e: KeyboardEvent) => {
@@ -63,6 +65,14 @@ export const CartModal = ({ isOpen, onClose}: CartModalProps) => {
                                 <p className="font-medium text-gray-700">{item.title}</p>
                                 <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>
                                 <p className="text-sm text-gray-500">Subtotal: ${item.price * item.quantity}</p>
+                                {item.stock === 0 && (
+                                    <p className="text-red-500 text-sm">Agotado</p>
+                                )}
+                                {item.quantity > item.stock && (
+                                    <p className="text-red-500 text-sm">
+                                        Solo hay {item.stock} en stock
+                                    </p>
+                                )}
                             </div>
                             <button
                             onClick={() => removeFromCart(item.id)}
@@ -76,36 +86,37 @@ export const CartModal = ({ isOpen, onClose}: CartModalProps) => {
                             <p className="font-semibold">Total: ${getTotalPrice().toFixed(2)}</p>
                             <p className="text-sm text-gray-500">Productos: {getTotalItems()}</p>
                         </div>
-                        <PayPalButton
-                            amount={getTotalPrice()}
-                            createOrderBackend={async () => {
-                                const res = await createPaypalOrder(getTotalPrice(), items.map(item => ({
-                                product_id: item.id,
-                                quantity: item.quantity,
-                                price: item.price,
-                                })));
-                                localStorage.setItem("local_order_id", res.local_order_id.toString());
-                                
-                                // Retornamos el ID de PayPal para que el botón lo use
-                                return res.paypal_order.id;
-                            }}
-                            onSuccess={(details) => {
-                                console.log("Pago exitoso:", details);
-                                clearCart();
-                                // Puedes navegar a otra página o mostrar mensaje
-                                navigate("/"); 
-                            }}
-                            onError={(err) => {
-                                console.error("Error en el pago:", err);
-                                alert("Ocurrió un error al procesar el pago.");
-                            }}
-                        />
-                        {/* <button
-                            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-                            onClick={handlePayment}
-                            >
-                            Proceder al pago
-                        </button> */}
+                        {hasInsufficientStock ? (
+                            <p className="text-red-500 mt-2">
+                            No puedes realizar la compra: hay productos agotados o cantidades que exceden el stock.
+                            </p>
+                        ) : (
+                            <PayPalButton
+                                amount={getTotalPrice()}
+                                createOrderBackend={async () => {
+                                    const res = await createPaypalOrder(getTotalPrice(), items.map(item => ({
+                                    product_id: item.id,
+                                    quantity: item.quantity,
+                                    price: item.price,
+                                    })));
+                                    localStorage.setItem("local_order_id", res.local_order_id.toString());
+                                    
+                                    // Retornamos el ID de PayPal para que el botón lo use
+                                    return res.paypal_order.id;
+                                }}
+                                onSuccess={(details) => {
+                                    console.log("Pago exitoso:", details);
+                                    clearCart();
+                                    // Puedes navegar a otra página o mostrar mensaje
+                                    navigate("/"); 
+                                }}
+                                onError={(err) => {
+                                    console.error("Error en el pago:", err);
+                                    alert("Ocurrió un error al procesar el pago.");
+                                }}
+                            />
+                        )}
+
                     </div>
                     )}
                 </div>
