@@ -12,6 +12,9 @@ import "keen-slider/keen-slider.min.css"
 import { useKeenSlider } from "keen-slider/react"
 import Hero from "../components/Hero";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import CategoryBar from "../components/CategoryBar";
+import axios from "../api/axiosInstance";
+import type { Category } from "../types/categories";
 
 
 export const Home = () => {
@@ -28,40 +31,76 @@ export const Home = () => {
     }, []);
 
     function ArrowPlugin(slider: any) {
-        let timeout: NodeJS.Timeout
-        const clearNextTimeout = () => clearTimeout(timeout)
-        const nextTimeout = () => {
-            clearTimeout(timeout)
-            timeout = setTimeout(() => {
-            slider.next()
-            }, 5000)
-        }
+    let timeout: NodeJS.Timeout;
 
-        slider.on("created", () => {
-            nextTimeout()
-        })
-        slider.on("dragStarted", clearNextTimeout)
-        slider.on("animationEnded", nextTimeout)
-        slider.on("updated", nextTimeout)
+    const clearNextTimeout = () => clearTimeout(timeout);
+    const nextTimeout = () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+        slider.next();
+        }, 5000);
+    };
+
+    slider.on("created", () => {
+        nextTimeout();
+
+        // 🚀 Forzar actualización después de 200ms
+        setTimeout(() => {
+        slider.update();
+        }, 200);
+    });
+
+    slider.on("dragStarted", clearNextTimeout);
+    slider.on("animationEnded", nextTimeout);
+    slider.on("updated", nextTimeout);
     }
 
     const [sliderRef, slider] = useKeenSlider<HTMLDivElement>(
     {
         slides: {
         perView: 3,
-        spacing: 24,
+        spacing: 16,
         },
         breakpoints: {
         "(max-width: 1024px)": {
-            slides: { perView: 2, spacing: 16 },
+            slides: { perView: 2, spacing: 12 },
         },
         "(max-width: 640px)": {
-            slides: { perView: 1.2, spacing: 12 },
+            slides: { perView: 1.2, spacing: 8 },
         },
         },
     },
     [ArrowPlugin]
-    )
+    );
+
+    useEffect(() => {
+        const handleResize = () => {
+            slider.current?.update();
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [slider]);
+
+    const [categories, setCategories] = useState<Category[]>([]);
+    useEffect(() => {
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get<Category[]>("/categories/");
+            setCategories(response.data);
+        } catch (error) {
+            console.error("Error cargando categorías", error);
+        }
+        };
+
+        fetchCategories();
+    }, []);
+
+    const firstFive = categories.slice(0, 5);
+    const nextFive = categories.slice(5, 10);
+
+
+
     return (
         <div >
             <div className="max-w-7xl mx-auto">
@@ -74,56 +113,81 @@ export const Home = () => {
                 </div>
             </div>
 
+            <section className="px-4 pt-20 pb-10">
+                {firstFive.length > 0 && <CategoryBar categories={firstFive} />}
+            </section>
+
             <section className="px-4 pt-20 pb-20">
                 <div className="container mx-auto">
                     <PageTitle section="" heading="Vendedores Destacados">
                     Seleccionamos los vendedores destacados del día.
                     </PageTitle>
 
-                    <div className="relative py-4 px-2">
-                        <div key={artists.length} ref={sliderRef} className="keen-slider min-h-[350px]">
-                            {artists.map((artist) => (
-                            <div
-                                key={artist.id}
-                                className="keen-slider__slide px-2 flex justify-center" // Espaciado lateral adicional
-                            >
-                                <div className="h-full">
-                                    <SellerCard key={artist.id} seller={artist} />
-                                </div>
+                    <div className="relative mt-6">
+                    {/* Carrusel */}
+                    <div
+                        ref={sliderRef}
+                        className="keen-slider"
+                    >
+                        {artists.map((artist) => (
+                        <div
+                            key={artist.id}
+                            className="keen-slider__slide"
+                        >
+                            <div className="mx-2">
+                            <SellerCard seller={artist} />
                             </div>
-                            ))}
                         </div>
-                            <button
-                                onClick={() => slider.current?.prev()}
-                                className="absolute top-1/2 -translate-y-1/2 left-2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition z-20"
-                            >
-                                <FaArrowLeft className="text-gray-700" />
-                            </button>
-                            <button
-                                onClick={() => slider.current?.next()}
-                                className="absolute top-1/2 -translate-y-1/2 right-2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition z-20"
-                            >
-                                <FaArrowRight className="text-gray-700" />
-                            </button>
+                        ))}
+                    </div>
+
+                    {/* Flechas */}
+                    <button
+                        onClick={() => slider.current?.prev()}
+                        className="absolute top-1/2 -translate-y-1/2 left-2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition z-20"
+                    >
+                        <FaArrowLeft className="text-gray-700" />
+                    </button>
+                    <button
+                        onClick={() => slider.current?.next()}
+                        className="absolute top-1/2 -translate-y-1/2 right-2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition z-20"
+                    >
+                        <FaArrowRight className="text-gray-700" />
+                    </button>
                     </div>
                 </div>
             </section>
 
-            <section className="px-4 pt-20 pb-20"> 
+  
+            {/* Tarjeta Informativa */}
+            <section className="px-4 pt-20 pb-20">
                 <div className="container mx-auto">
-                    <PageTitle section="" heading="Articulos Que Estan Ardiendo">
-                        Los articulos que todos estan buscando y se estan acabando...
+                <div className="bg-gradient-to-r from-blue-50 to-white rounded-xl shadow hover:shadow-lg hover:scale-[1.02] transition max-w-5xl mx-auto flex flex-col justify-center items-center text-center p-10">
+                    <PageTitle section="" heading="Compra de Todo Aquí">
+                    Todos los vendedores alrededor del país querrán usarla. Puedes vender todo lo que se te ocurra. Vas a comprar lo que quieras.
                     </PageTitle>
+                </div>
+                </div>
+            </section>
 
-                    <section className="relative py-4 px-2">
-                        <div className="container mx-auto">
-                            <div className="px-2 flex justify-center">
-                                    {mostsale.map(mostsale => (
-                                    <MostSaleCard key={mostsale.id} mostsales={mostsale} />
-                                    ))}
-                            </div>
-                        </div>
-                    </section>
+            <section className="px-4 pt-20 pb-10">
+                {nextFive.length > 0 && <CategoryBar categories={nextFive} />}
+            </section>
+
+            {/* Artículos Que Están Ardiendo */}
+            <section className="px-4 pt-20 pb-20">
+                <div className="container mx-auto">
+                <PageTitle section="" heading="Artículos Que Están Ardiendo">
+                    Los artículos que todos están buscando y se están acabando...
+                </PageTitle>
+
+                <section className="relative py-4 px-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {mostsale.map((item) => (
+                        <MostSaleCard key={item.id} mostsales={item} />
+                    ))}
+                    </div>
+                </section>
                 </div>
             </section>
             <Footer/>

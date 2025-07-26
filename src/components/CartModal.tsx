@@ -12,7 +12,7 @@ interface CartModalProps {
 }
 
 export const CartModal = ({ isOpen, onClose}: CartModalProps) => {
-    const { items, removeFromCart, getTotalItems, getTotalPrice } = useCartStore()
+    const { items, removeFromCart, getTotalItems, getTotalPrice, incrementQuantity, decrementQuantity } = useCartStore()
     const modalRef = useRef<HTMLDivElement>(null)
 
     const navigate = useNavigate();
@@ -59,31 +59,58 @@ export const CartModal = ({ isOpen, onClose}: CartModalProps) => {
                     <p className="text-gray-500">El carrito está vacío</p>
                     ) : (
                     <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
-                        {items.map(item => (
-                        <div key={item.id} className="flex justify-between items-center border-b pb-2">
-                            <div>
-                                <p className="font-medium text-gray-700">{item.title}</p>
-                                <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>
-                                <p className="text-sm text-gray-500">Subtotal: ${item.price * item.quantity}</p>
+                        {items.map((item) => (
+                            <div
+                                key={item.id}
+                                className="flex justify-between items-center border-b pb-2"
+                            >
+                                <div className="flex flex-col">
+                                <p className="font-medium text-gray-700 capitalize">{item.title}</p>
+                                <p className="text-sm text-gray-500">Precio unitario: ${item.price}</p>
+                                <div className="flex items-center mt-1 space-x-2">
+                                    <button
+                                    onClick={() => decrementQuantity(item.id)}
+                                    className="bg-gray-200 px-2 rounded text-lg cursor-pointer hover:bg-gray-400"
+                                    >
+                                    -
+                                    </button>
+                                    <span className="text-gray-500">{item.quantity}</span>
+                                    <button
+                                    onClick={() => {
+                                        if (item.quantity < item.stock) {
+                                        incrementQuantity(item.id);
+                                        } else {
+                                        alert("No puedes agregar más de este producto.");
+                                        }
+                                    }}
+                                    className="bg-gray-200 px-2 rounded text-lg cursor-pointer hover:bg-gray-400"
+                                    >
+                                    +
+                                    </button>
+                                </div>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Subtotal: ${(item.price * item.quantity).toFixed(2)}
+                                </p>
                                 {item.stock === 0 && (
                                     <p className="text-red-500 text-sm">Agotado</p>
                                 )}
                                 {item.quantity > item.stock && (
                                     <p className="text-red-500 text-sm">
-                                        Solo hay {item.stock} en stock
+                                    Solo hay {item.stock} en stock
                                     </p>
                                 )}
+                                </div>
+                                <button
+                                onClick={() => removeFromCart(item.id)}
+                                className="text-red-500 hover:text-red-700 text-sm"
+                                >
+                                Eliminar
+                                </button>
                             </div>
-                            <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="text-red-500 hover:text-red-700 text-sm"
-                            >
-                            Eliminar
-                            </button>
-                        </div>
                         ))}
+
                         <div className="border-t pt-2">
-                            <p className="font-semibold">Total: ${getTotalPrice().toFixed(2)}</p>
+                            <p className="font-semibold text-gray-500 ">Total: ${getTotalPrice().toFixed(2)}</p>
                             <p className="text-sm text-gray-500">Productos: {getTotalItems()}</p>
                         </div>
                         {hasInsufficientStock ? (

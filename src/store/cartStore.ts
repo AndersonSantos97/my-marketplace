@@ -11,6 +11,8 @@ interface CartState {
     addToCart: (product: Product) => void
     removeFromCart: (productId: number) => void
     clearCart: () => void
+    incrementQuantity: (productId: number) => void;
+    decrementQuantity: (productId: number) => void;
     getTotalItems: () => number
     getTotalPrice: () => number
 }
@@ -23,14 +25,38 @@ export const useCartStore = create<CartState>()(
       addToCart: (product) => {
         const existing = get().items.find(item => item.id === product.id)
         if (existing) {
-          set({
-            items: get().items.map(item =>
-              item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-            ),
-          })
+          if(existing.quantity < product.stock){
+            set({
+              items: get().items.map(item =>
+                item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+              ),
+            })
+          }
         } else {
           set({ items: [...get().items, { ...product, quantity: 1 }] })
         }
+      },
+
+      incrementQuantity: (productId) => {
+        set({
+          items: get().items.map((item) => 
+          item.id === productId && item.quantity < item.stock
+          ? {...item, quantity: item.quantity + 1}
+          :item
+        )
+        });
+      },
+
+      decrementQuantity: (productId) => {
+        set({
+          items: get().items
+            .map((item) =>
+              item.id === productId
+                ? { ...item, quantity: item.quantity - 1 }
+                : item
+            )
+            .filter((item) => item.quantity > 0),
+        });
       },
 
       removeFromCart: (productId) => {

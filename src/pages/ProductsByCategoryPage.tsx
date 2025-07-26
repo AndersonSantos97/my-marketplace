@@ -38,10 +38,10 @@ const ProductsByCategoryPage = () => {
                 ) : (
                     categories.map(category => (
                     <div key={category.category_id} className="mb-12">
-                        <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+                        <h2 className="text-2xl font-semibold mb-4 text-gray-700 capitalize">
                         {category.category_name} ({category.total_products})
                         </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
                         {category.products.map(product => (
                             <ProductCard key={product.id} product={product} />
                         ))}

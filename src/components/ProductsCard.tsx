@@ -1,6 +1,7 @@
 import type { MostSale } from "../types/MostSales";
 import { useCartStore } from '../store/cartStore'
 import toast from 'react-hot-toast'
+import { getDriveDirectUrl } from "../utils/getDriveDirectUrl";
 // import {
 //   Card,
 //   Avatar,
@@ -13,34 +14,35 @@ export const MostSaleCard = ({ mostsales }: {mostsales: MostSale}) => {
   console.log("Cantidad de estock de mostsales" + mostsales.stock)
 
   return(
-    <div className="bg-gray-50 mx-4 shadow-md hover:shadow-xl hover:scale-[1.03] transition-all duration-300 cursor-pointer overflow-hidden w-[250px] h-[360px] flex flex-col justify-between p-4">
-      <img
-        src={mostsales.image_url}
-        alt={mostsales.title}
-        className="w-full h-48 object-cover"
-      />
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-800 truncate">{mostsales.title}</h3>
-        <p className="text-sm text-gray-600 mt-1 line-clamp-2">{mostsales.description}</p>
-        <div className="mt-4 flex justify-between items-center">
-          <span className="text-blue-600 font-bold text-lg">${mostsales.price.toFixed(2)}</span>
-          {mostsales.stock === 0 ? (
-            <span className="text-red-500 font-semibold">Agotado</span>
-          ) : (
-                <button
-                  onClick={() => {
-                      addToCart(mostsales)
-                      toast.success(`${mostsales.title} agregado al carrito`)
-                  }}
-                  className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700 transition"
-                >
-                  Agregar
-                </button>
-
-          )}
+    <>
+      <div className=" bg-white rounded-xl shadow hover:shadow-lg hover:scale-[1.02] transition w-[250px] flex flex-col overflow-hidden cursor-pointer">
+        <img
+          src={getDriveDirectUrl(mostsales.image_url)}
+          alt={mostsales.title}
+          className="w-full h-48 object-cover"
+        />
+        <div className="p-4 flex flex-col justify-between flex-grow">
+          <h3 className="text-lg font-heading font-semibold text-dark">{mostsales.title}</h3>
+          <p className="text-sm text-muted mt-1 line-clamp-2">{mostsales.description}</p>
+          <div className="mt-4 flex justify-between items-center">
+            <span className="text-primary font-bold text-lg">${mostsales.price.toFixed(2)}</span>
+            {mostsales.stock === 0 ? (
+              <span className="text-red-500 font-semibold">Agotado</span>
+            ) : (
+              <button
+                onClick={() => {
+                  addToCart(mostsales)
+                  toast.success(`${mostsales.title} agregado al carrito`)
+                }}
+                className="bg-primary text-white px-3 py-1 rounded-md text-sm bg-blue-900 transition"
+              >
+                Agregar
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-    </div>
+      </div>    
+    </>
   )
 
 }

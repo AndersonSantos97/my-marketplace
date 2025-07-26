@@ -22,11 +22,11 @@ export const Cart = () => {
     // });
   };
 
-  return (
-    <div>
-      <h1>Resumen del Carrito</h1>
-      <p>Total a pagar: ${cartTotal}</p>
-      <PayPalButton total={cartTotal} onSuccess={handleSuccess} />
-    </div>
-  );
+  // return (
+  //   <div>
+  //     <h1>Resumen del Carrito</h1>
+  //     <p>Total a pagar: ${cartTotal}</p>
+  //     <PayPalButton total={cartTotal} onSuccess={handleSuccess} />
+  //   </div>
+  // );
 };

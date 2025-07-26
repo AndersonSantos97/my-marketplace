@@ -34,20 +34,20 @@ export const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Imagen en el lado izquierdo */}
-      <div className="hidden md:block md:w-1/2 relative">
-        <img
-          src="/images/login.jpg"
-          alt="Iniciar sesión"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white shadow-md rounded-lg overflow-hidden flex w-full max-w-4xl">
+        {/* Imagen lateral */}
+        <div className="hidden md:block md:w-1/2 bg-gray-200">
+          <img
+            src="/images/login.jpg"
+            alt="Iniciar sesión"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-      {/* Formulario centrado */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
-        <div className="w-full max-w-md">
-          <h2 className="text-3xl font-bold mb-6 text-center">Iniciar sesión</h2>
+        {/* Formulario */}
+        <div className="w-full md:w-1/2 p-8">
+          <h2 className="text-2xl font-bold mb-6 text-center">Iniciar sesión</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">

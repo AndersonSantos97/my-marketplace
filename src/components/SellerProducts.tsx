@@ -1,6 +1,7 @@
 import type { Product } from '../types/product';
 import { useCartStore } from '../store/cartStore';
 import toast from 'react-hot-toast';
+import { getDriveDirectUrl } from "../utils/getDriveDirectUrl";
 
 interface Props {
   product: Product
@@ -16,8 +17,8 @@ export const ProductCard = ({ product }: Props) => {
   return (
     <div className="border rounded-lg shadow hover:shadow-md p-4">
       <img src={product.image_url} alt={product.title} className="w-full h-48 object-cover mb-4 rounded" />
-      <h2 className="text-lg font-semibold mb-2">{product.title}</h2>
-      <p className="text-sm text-gray-600 mb-2">{product.description}</p>
+      <h2 className="text-lg font-semibold mb-2 capitalize">{product.title}</h2>
+      <p className="text-sm text-gray-600 mb-2 capitalize">{product.description}</p>
       <p className="text-blue-500 font-bold mb-4">${product.price}</p>
       <button
         onClick={() => {

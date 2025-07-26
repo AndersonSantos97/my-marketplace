@@ -12,9 +12,16 @@ import { ProfilePage } from './pages/ProfilePage';
 import { CategoryDetailPage } from './pages/CategoryDetailPage';
 import { PaymentSuccessPage } from './components/PaymentSuccessPage';
 import { PaypalRedirectPage } from './components/PaypalRedirectPage';
+import { InactiveProductsPage } from './pages/InactiveProductsPage';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+<ToastContainer />
+
 
 function App() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
+  if(isLoading) return null;
 
   return (
     <>
@@ -30,9 +37,11 @@ function App() {
         <Route path="/categoria/:categoryId" element={<CategoryDetailPage/>}/>
         <Route path="/payment-success" element={<PaymentSuccessPage />} />
         <Route path="/paypal-redirect" element={<PaypalRedirectPage />} />
+        <Route path="/vendedor/productos-inactivos" element={<InactiveProductsPage />} />
       </Routes>
     </>
   );
 }
 
 export default App;
+ 

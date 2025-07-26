@@ -2,42 +2,40 @@ import { useNavigate } from "react-router-dom";
 import type { Seller } from "../types/Seller";
 
 interface SellerCardProps {
-    seller: Seller
+  seller: Seller;
 }
 
-const SellerCard = ({seller}: SellerCardProps) => {
-    const navigate = useNavigate()
+const SellerCard = ({ seller }: SellerCardProps) => {
+  const navigate = useNavigate();
 
-    return(
-        <>
-            <div
-                onClick={() => navigate(`/seller/${seller.id}`)}
-                className="bg-gray-50 shadow-md hover:shadow-xl hover:scale-[1.03] transition-all duration-300 cursor-pointer overflow-hidden w-[250px] h-[340px] flex flex-col justify-between p-4"
-                >
-                {/* Imagen arriba */}
-                <div className="flex justify-center mb-4">
-                    <img
-                    src={seller.avatar_url}
-                    alt={seller.name}
-                    className="w-24 h-24 rounded-full object-cover border-2 "
-                    />
-                </div>
+  return (
+    <div
+      onClick={() => navigate(`/seller/${seller.id}`)}
+      className="bg-white rounded-xl shadow hover:shadow-lg hover:scale-[1.02] transition w-[250px] h-[340px] flex flex-col overflow-hidden cursor-pointer"
+    >
+      {/* Imagen ocupa la mitad superior */}
+      <div className="h-[50%] w-full">
+        <img
+          src={seller.avatar_url}
+          alt={seller.name}
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-                {/* Nombre y bio distribuidos */}
-                <div className="text-center flex flex-col flex-grow justify-between">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-2">{seller.name}</h2>
-                    <p className="text-sm text-gray-600 line-clamp-3">{seller.bio}</p>
-                </div>
+      {/* Contenido */}
+      <div className="p-4 flex flex-col justify-between flex-grow">
+        <div className="text-center">
+          <h2 className="text-lg font-heading font-semibold text-dark">
+            {seller.name}
+          </h2>
+          <p className="text-sm text-muted mt-1 line-clamp-2">{seller.bio}</p>
+        </div>
+        <div className="text-center mt-4">
+          <span className="text-xs text-gray-400">Haz clic para ver sus productos</span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-                {/* Footer */}
-                <div className="text-center mt-4">
-                    <span className="text-xs text-gray-400">Haz clic para ver sus productos</span>
-                </div>
-            </div>
-                    
-        </>
-    )
-
-}
-
-export default SellerCard
+export default SellerCard;

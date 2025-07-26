@@ -6,3 +6,8 @@ export interface CategoryWithProducts {
     products: Product[]
     total_products: number
 }
+
+export interface Category {
+  id: number;
+  name: string;
+}

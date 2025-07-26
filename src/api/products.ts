@@ -61,3 +61,12 @@ export const getProductsByCategory = async (
     total: data.total,
   };
 };
+
+
+// Obtener productos inactivos del vendedor
+export const getInactiveProducts = (sellerId: number) =>
+  axios.get(`/products/seller/inactive/${sellerId}?status_id=3`);
+
+// Activar producto (cambiar status_id a 1)
+export const activateProduct = (productId: number) =>
+  axios.patch(`/products/active/${productId}`, { status_id: 1 });

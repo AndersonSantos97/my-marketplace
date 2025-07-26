@@ -81,7 +81,7 @@ export const VendorDashboard = () => {
 
         <div className="mb-6">
           <button
-            className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
+            className="bg-blue-900 text-white px-4 py-2 rounded shadow hover:bg-blue-800"
             onClick={() => {
               setShowForm(true);
               setEditingProduct(null);
