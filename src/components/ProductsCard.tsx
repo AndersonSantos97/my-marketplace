@@ -1,7 +1,6 @@
 import type { MostSale } from "../types/MostSales";
 import { useCartStore } from '../store/cartStore'
 import toast from 'react-hot-toast'
-import { getDriveDirectUrl } from "../utils/getDriveDirectUrl";
 // import {
 //   Card,
 //   Avatar,
@@ -17,7 +16,7 @@ export const MostSaleCard = ({ mostsales }: {mostsales: MostSale}) => {
     <>
       <div className=" bg-white rounded-xl shadow hover:shadow-lg hover:scale-[1.02] transition w-[250px] flex flex-col overflow-hidden cursor-pointer">
         <img
-          src={getDriveDirectUrl(mostsales.image_url)}
+          src={mostsales.image_url}
           alt={mostsales.title}
           className="w-full h-48 object-cover"
         />

@@ -9,9 +9,9 @@ import { LogOut, User } from "lucide-react";
 export const Navbar = () => {
     const [isCartOpen, setCartOpen] = useState(false)
     const navigate = useNavigate();
-    const handleClick = () => {
-        navigate('/')
-    }
+    // const handleClick = () => {
+    //     navigate('/')
+    // }
 
     const { user, logout } = useAuth();
 

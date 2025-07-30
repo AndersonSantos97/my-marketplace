@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { capturePaypalPayment, confirmPaypalPayment } from "../api/paypal";
+import { confirmPaypalPayment } from "../api/paypal";
 
 interface PayPalButtonProps {
   amount: number;
@@ -15,7 +15,7 @@ export const PayPalButton = ({
   onError
 }: PayPalButtonProps) => {
   const paypalRef = useRef<HTMLDivElement>(null);
-
+  console.log(amount);
   useEffect(() => {
     const container = paypalRef.current;
     if (!window.paypal || !container) return;
@@ -36,6 +36,7 @@ export const PayPalButton = ({
         }
       },
       onApprove: async (data: any, actions: any) => {
+        console.log(data)
         const details = await actions.order.capture();
         try {
           const paypalOrderId = details.id;
@@ -57,7 +58,7 @@ export const PayPalButton = ({
     return () => {
       button.close();
     };
-  }, []); // 👈🏼 OJO: SIN dependencias dinámicas
+  }, []); //OJO: SIN dependencias dinámicas
 
   return <div ref={paypalRef} />;
 };

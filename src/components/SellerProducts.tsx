@@ -1,7 +1,6 @@
 import type { Product } from '../types/product';
 import { useCartStore } from '../store/cartStore';
 import toast from 'react-hot-toast';
-import { getDriveDirectUrl } from "../utils/getDriveDirectUrl";
 
 interface Props {
   product: Product

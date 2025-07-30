@@ -11,5 +11,5 @@ export interface Product {
   category_id: number;
   status_id: number;
   artist_id: number;
-  total_sold: number
+  total_sold?: number
 }

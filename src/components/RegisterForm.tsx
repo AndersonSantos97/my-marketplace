@@ -10,7 +10,7 @@ export const RegisterForm = () => {
   const [avatarUrl, setAvatarUrl] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [, setError] = useState("");
   const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {

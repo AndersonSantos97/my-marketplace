@@ -1,5 +1,4 @@
 import type { Product } from "../types/product";
-import { getDriveDirectUrl } from "../utils/getDriveDirectUrl";
 
 interface Props {
   product: Product;
