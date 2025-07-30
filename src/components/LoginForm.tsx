@@ -12,13 +12,13 @@ export const LoginForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { access_token, user } = await loginUser(email, password);
+      const { access_token, refresh_token, user } = await loginUser(email, password);
 
-      if (!access_token || typeof access_token !== "string") {
+      if (!access_token || typeof access_token !== "string" || !refresh_token) {
         throw new Error("Token inválido");
       }
 
-      login(access_token, user);
+      login(access_token, refresh_token, user);
 
       alert("Login exitoso");
 
@@ -38,7 +38,7 @@ export const LoginForm = () => {
       {/* Imagen en el lado izquierdo */}
       <div className="hidden md:block md:w-1/2 relative">
         <img
-          src="/images/login.jpg"
+          src="/images/login.png"
           alt="Iniciar sesión"
           className="absolute inset-0 w-full h-full object-cover"
         />

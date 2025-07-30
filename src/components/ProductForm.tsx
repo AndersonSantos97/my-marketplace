@@ -81,6 +81,27 @@ export const ProductForm: React.FC<Props> = ({
     >
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
+          Nota Importante
+        </label>
+        <div className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 text-sm text-gray-700">
+          Para el uso de imágenes de sus productos, le instruimos 
+          a subir sus imágenes a la plataforma <strong>Cloudinary</strong>. Copie y pegue el enlace de la imagen en el
+          apartado de "Imagen principal". <br />
+          Si no conoce Cloudinary, puede ver este tutorial en el siguiente enlace:
+          <br />
+          <a 
+            href="https://www.youtube.com/watch?v=qNIntGO5Ijc" 
+            className="text-blue-600 underline" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            Ver tutorial en YouTube
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
           Título
         </label>
         <input

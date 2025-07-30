@@ -15,7 +15,7 @@ export interface AuthContextType {
   token: string | null;
   user: User | null;
   userId: string | null;
-  login: (token: string, user: User) => void;
+  login: (accessToken: string, refreshToken: string, user: User) => void;
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -48,15 +48,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(false);
   }, []);
 
-  const login = (newToken: string, userData: User) => {
-    localStorage.setItem("token", newToken);
-    localStorage.setItem("user", JSON.stringify(userData));
+const login = (accessToken: string, refreshToken: string, userData: User) => {
+  localStorage.setItem("token", accessToken);
+  localStorage.setItem("refresh_token", refreshToken);
+  localStorage.setItem("user", JSON.stringify(userData));
 
-    const decoded: any = jwtDecode(newToken);
-    setToken(newToken);
-    setUserId(decoded.sub);
-    setUser(userData);
-  };
+  const decoded: any = jwtDecode(accessToken);
+  setToken(accessToken);
+  setUserId(decoded.sub);
+  setUser(userData);
+};
 
   const logout = () => {
     localStorage.removeItem("token");

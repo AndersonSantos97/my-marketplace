@@ -29,8 +29,8 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
         <div className="flex items-center space-x-3">
-          <img src="/logo.svg" className="h-8" alt="Logo" />
-          <span className="text-2xl font-heading font-bold text-white">Cibermarket</span>
+          <img src="/images/logo_b.png" className="h-25" alt="Logo" />
+          <span className="text-2xl font-heading font-bold text-white ml-0">Cibermarket</span>
         </div>
 
         {/* Botón hamburguesa */}

@@ -1,7 +1,7 @@
 import axios from "./axiosInstance";
 import type { Product } from "../types/product";
 
-const API = "http://127.0.0.1:8000";
+const API = import.meta.env.VITE_API_URL;
 
 export const getProductsBySeller = async (sellerId: string): Promise<Product[]> => {
   const response = await axios.get(`/products/seller/${sellerId}`);
