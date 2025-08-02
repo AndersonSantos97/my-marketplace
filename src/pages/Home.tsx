@@ -106,7 +106,7 @@ export const Home = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="relative">
                     <Hero 
-                        image="/images/hero.jpg"
+                        image="/images/2.png"
                         title="El Mejor Lugar Para Comprar"
                     />
                     <Navbar />

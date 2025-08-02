@@ -47,6 +47,7 @@ export const LoginForm = () => {
       {/* Formulario centrado */}
       <div className="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md">
+          <img src="/icono.png" alt="logo" className="w-30 md:w-34 lg:w-48 h-auto mx-auto mb-1"/>
           <h2 className="text-3xl font-bold mb-6 text-center">Iniciar sesión</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -88,6 +89,11 @@ export const LoginForm = () => {
             ¿No tienes cuenta?{" "}
             <a href="/register" className="text-blue-600 hover:underline">
               Regístrate aquí
+            </a>
+          </p>
+          <p className="text-sm mt-2 text-center">
+            <a href="/forgot-password" className="text-blue-600 hover:underline">
+              ¿Olvidaste tu contraseña?
             </a>
           </p>
         </div>

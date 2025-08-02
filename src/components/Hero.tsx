@@ -8,12 +8,12 @@ interface HeroProps {
 
 const Hero = ({image, title, subtitle} : HeroProps) => {
   return (
-    <div className="relative h-[450px] md:h-[500px] lg:h-[500px] overflow-hidden rounded-b-3xl">
+    <div className="relative h-[450px] md:h-[500px] lg:h-[500px] overflow-hidden">
         <img
             //src="/images/hero.jpg"
             src={image}
             alt="Hero"
-            className="absolute inset-0 w-full h-full object-cover opacity-70"
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
         />
         {/* Capa opcional para oscurecer más la imagen */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60" />

@@ -45,8 +45,8 @@ const SellersPage = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="relative">
                     <Hero 
-                        image="/images/seller.jpg"
-                        title="El Mejor Lugar Para Comprar"
+                        image="/images/4.png"
+                        title="El Mejor lugar para vender"
                     />
                     <Navbar />
                 </div>

@@ -13,6 +13,9 @@ import { CategoryDetailPage } from './pages/CategoryDetailPage';
 import { PaymentSuccessPage } from './components/PaymentSuccessPage';
 import { PaypalRedirectPage } from './components/PaypalRedirectPage';
 import { InactiveProductsPage } from './pages/InactiveProductsPage';
+import {SearchResultsPage} from './pages/SearchResultsPage';
+import { ForgotPasswordForm } from "./pages/ForgotPasswordForm";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -38,6 +41,9 @@ function App() {
         <Route path="/payment-success" element={<PaymentSuccessPage />} />
         <Route path="/paypal-redirect" element={<PaypalRedirectPage />} />
         <Route path="/vendedor/productos-inactivos" element={<InactiveProductsPage />} />
+        <Route path="/search" element={<SearchResultsPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordForm />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Routes>
     </>
   );

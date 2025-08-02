@@ -25,8 +25,8 @@ const ProductsByCategoryPage = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="relative">
                     <Hero 
-                        image="/images/product_banner.jpg"
-                        title="El Mejor Lugar Para Comprar"
+                        image="/images/3.png"
+                        title="Los mejores productos para adquirir"
                     />
                     <Navbar />
                 </div>

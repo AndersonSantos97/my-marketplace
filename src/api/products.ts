@@ -63,6 +63,14 @@ export const getProductsByCategory = async (
 };
 
 
+export const searchProducts = async(query: string):Promise<Product[]> => {
+  const response = await axios.get<Product[]>(`/products/search/alike`,{
+    params: {query},
+  });
+
+  return response.data;
+}
+
 // Obtener productos inactivos del vendedor
 export const getInactiveProducts = (sellerId: number) =>
   axios.get(`/products/seller/inactive/${sellerId}?status_id=3`);
