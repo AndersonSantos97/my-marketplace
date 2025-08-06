@@ -121,8 +121,11 @@ export const Navbar = () => {
       {isBuyer && (
         <CartModal isOpen={isCartOpen} onClose={() => setCartOpen(false)} />
       )}
+      {isBuyer && (
+        <SearchBar />
+      )}
 
-      <SearchBar />
+      
     </nav>
   );
 };

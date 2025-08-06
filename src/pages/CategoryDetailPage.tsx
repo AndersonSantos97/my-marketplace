@@ -35,8 +35,8 @@ export const CategoryDetailPage = () => {
                 </div>
             </div>
             <section className="px-6 py-10 max-w-6xl mx-auto">
-                <h1 className="text-2xl font-bold mb-4 capitalize">Productos de {category}</h1>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                <h1 className="text-2xl font-bold mb-4 capitalize text-center">Productos de {category}</h1>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 justify-items-center">
                     {products.map(product => (
                     <ProductCard key={product.id} product={product} />
                     ))}

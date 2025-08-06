@@ -61,7 +61,7 @@ export const ProfilePage = () => {
   return (
     <>
       <header className="bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 py-15">
+        <div className="max-w-7xl mx-auto px-4 py-20">
           <Navbar />
         </div>
       </header>

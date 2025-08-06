@@ -20,8 +20,6 @@ export const LoginForm = () => {
 
       login(access_token, refresh_token, user);
 
-      alert("Login exitoso");
-
       if (user.role === 2) {
         navigate("/vendedor/dashboard");
       } else {
