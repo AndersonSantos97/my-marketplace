@@ -6,7 +6,6 @@ import { useAuth } from "./context/AuthContext";
 import SellersPage from './pages/SellersPage';
 import ProductsByCategoryPage from './pages/ProductsByCategoryPage';
 import { RegisterForm } from "./components/RegisterForm";
-import "keen-slider/keen-slider.min.css"
 import { VendorDashboard } from './components/VendorDashboard';
 import { ProfilePage } from './pages/ProfilePage';
 import { CategoryDetailPage } from './pages/CategoryDetailPage';
